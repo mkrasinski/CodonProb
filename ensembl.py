@@ -8,16 +8,15 @@ class EnsemblRestClient():
 
     def get_sequence(self, id):
         """Return archived sequence for specified identifier."""
-        self.endpoint = '/archive/id/'
+        self.endpoint = '/sequence/id/'
         url = self.server + self.endpoint + id + '?'
         r = requests.get(url, headers={ "Content-Type" : "application/json"})
 
         if not r.ok:
             r.raise_for_status()
-        else:
-            decoded = r.json()
-            print repr(decoded)
-        return None
+            sys.exit()
+        decoded = r.json()
+        return decoded
 
     def get_region_feature(self, species, region, features):
         """Return requested features for specified species and region."""
@@ -32,8 +31,19 @@ class EnsemblRestClient():
         if not r.ok:
             r.raise_for_status()
             sys.exit()
-        print r.text
-        return None
+        return r.text
+
+    def get_xrefs_symbol(self, species, symbol):
+        """Lookup all Ensembl objects linked to provided symbol."""
+        self.endpoint = '/xrefs/symbol/'
+        url = self.server + self.endpoint + species + '/' + symbol + '?'
+
+        r = requests.get(url, headers={ "Content-Type" : "application/json"})
+
+        if not r.ok:
+            r.raise_for_status()
+            sys.exit()
+        return r.json()
 
 if __name__ == '__main__':
     print """This package implements client for Ensembl REST API"""

@@ -8,7 +8,7 @@ if __name__ == '__main__':
         features = sys.argv[3:]
 
         client = ensembl.EnsemblRestClient()
-        client.get_region_feature(species, region, features)
+        print client.get_region_feature(species, region, features)
     else:
         print """This is a client for Ensembl REST API resource 'GET overlap/region/:species/:region'
 
