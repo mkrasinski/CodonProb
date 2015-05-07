@@ -14,6 +14,7 @@ if __name__ == '__main__':
         ref = client.get_sequence( ref["type" == "gene"]["id"] )
         sequence = ref['seq']
         sequence = sequence.replace('T','U')
+        #print "Sequence: " + sequence
 
         #RNA codon table from http://en.wikipedia.org/wiki/Genetic_code
         codon_table = ((('GCU', 'GCC', 'GCA', 'GCG'),  'Alanine'),
@@ -44,8 +45,9 @@ if __name__ == '__main__':
 
         #counting each codon and each aa
         for cod in (sequence[i:i+3] for i in xrange(0,len(sequence),3)):
-            cod_count[cod] += 1
-            grp_count[siblings[cod]] += 1
+            if len(cod) == 3:
+                cod_count[cod] += 1
+                grp_count[siblings[cod]] += 1
 
         for cod in siblings.iterkeys(): # the keys of siblings are the 64 codons
             if siblings[cod] in grp_count: #grp_count has value only if aa occurred
@@ -54,9 +56,11 @@ if __name__ == '__main__':
             else:
                 freq[cod] = '-* Missing *-'
                 freq[siblings[cod]] = '-* Missing *-'
-
-        display = '\n'.join(aa.rjust(13)+' '+str(freq[codgrp]).rjust(15)+\
-                '\n'.join('%s  %-16s' % (cod.rjust(34 if i else 5),freq[cod])
+        print "|-------------|-----|---------------|-----------------|\n"+\
+              "|  Amino-acid |Codon|  Codon prob   |   AA prob       |\n"+\
+              "|-------------|-----|---------------|-----------------|\n"
+        display = '\n'.join(aa.rjust(13)+' '+\
+                '\n'.join('%s  %-16s %-16s' % (cod.rjust(19 if i else 5),freq[cod],freq[codgrp])
                           for i,cod in enumerate(codgrp))
                 for codgrp,aa in codon_table)
 
