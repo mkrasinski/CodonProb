@@ -11,10 +11,13 @@ if __name__ == '__main__':
         #add verification if ref came back non-empty
         for obj in ref:
             print obj['type'] + ' ' + obj['id']
-        ref = client.get_sequence( ref["type" == "gene"]["id"] )
+            if obj['type'] == "transcript":
+                seq_id = obj['id']
+        ref = client.get_sequence( seq_id )
+        print ref
         sequence = ref['seq']
         sequence = sequence.replace('T','U')
-        #print "Sequence: " + sequence
+        print "Sequence: " + sequence
 
         #RNA codon table from http://en.wikipedia.org/wiki/Genetic_code
         codon_table = ((('GCU', 'GCC', 'GCA', 'GCG'),  'Alanine'),
@@ -23,13 +26,13 @@ if __name__ == '__main__':
                (('AAA', 'AAG'),  'Lysine'),
                (('AAU', 'AAC'),  'Asparagine'),
                (('AUG',),  'Methionine'),
-               (('GAU', 'GAC'),  'Aspartic acid' ),
+               (('GAU', 'GAC'),  'Aspartic_acid' ),
                (('UUU', 'UUC'),  'Phenylalanine'),
                (('UGU', 'UGC'),  'Cysteine'),
                (('CCU', 'CCC', 'CCA', 'CCG'),  'Proline') ,
                (('CAA', 'CAG'),  'Glutamine'),
                (('UCU', 'UCC', 'UCA', 'UCG', 'AGU', 'AGC'),  'Serine'),
-               (('GAA', 'GAG'),  'Glutamic acid'),
+               (('GAA', 'GAG'),  'Glutamic_acid'),
                (('ACU', 'ACC', 'ACA', 'ACG'),  'Threonine'),
                (('GGU', 'GGC', 'GGA', 'GGG'),  'Glycine'),
                (('UGG',),  'Tryptophane'),
@@ -56,11 +59,11 @@ if __name__ == '__main__':
             else:
                 freq[cod] = '-* Missing *-'
                 freq[siblings[cod]] = '-* Missing *-'
-        print "|-------------|-----|---------------|-----------------|\n"+\
-              "|  Amino-acid |Codon|  Codon prob   |   AA prob       |\n"+\
-              "|-------------|-----|---------------|-----------------|\n"
-        display = '\n'.join(aa.rjust(13)+' '+\
-                '\n'.join('%s  %-16s %-16s' % (cod.rjust(19 if i else 5),freq[cod],freq[codgrp])
+        print "|-------------|-----------------|-----|-----------------|\n"+\
+              "|  Amino-acid |   Codon prob    |Codon|   AA prob       |\n"+\
+              "|-------------|-----------------|-----|-----------------|\n"
+        display = '\n'.join(
+                '\n'.join('%s   %-13s  %s   %-16s' % (aa.rjust(13),freq[codgrp],cod.rjust(4),freq[cod])
                           for i,cod in enumerate(codgrp))
                 for codgrp,aa in codon_table)
 
@@ -68,7 +71,6 @@ if __name__ == '__main__':
 
     else:
         print """This is a script for analysing frequency of amino-acid occurrence
-
                     Usage: python codon_frequency.py [species] [symbol]
                         [symbol] is expected to have Ensembl object linked to it.
                     For example:
