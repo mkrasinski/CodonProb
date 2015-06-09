@@ -60,7 +60,7 @@ if __name__ == '__main__':
                 freq[cod] = '-* Missing *-'
                 freq[siblings[cod]] = '-* Missing *-'
         print "|-------------|-----------------|-----|-----------------|\n"+\
-              "|  Amino-acid |   Codon prob    |Codon|   AA prob       |\n"+\
+              "|  Amino-acid |   AA prob       |Codon|   Codon prob    |\n"+\
               "|-------------|-----------------|-----|-----------------|\n"
         display = '\n'.join(
                 '\n'.join('%s   %-13s  %s   %-16s' % (aa.rjust(13),freq[codgrp],cod.rjust(4),freq[cod])
