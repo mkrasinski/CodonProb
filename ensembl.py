@@ -45,5 +45,17 @@ class EnsemblRestClient():
             sys.exit()
         return r.json()
 
+    def get_xrefs_id(self, id, external_db):
+        """Lookup all IDs in external_db for provided Ensembl ID."""
+        self.endpoint = '/xrefs/id/'
+        url = self.server + self.endpoint + id + '?external_db=' + external_db + ';all_levels=1'
+
+        r = requests.get(url, headers={ "Content-Type" : "application/json"})
+
+        if not r.ok:
+            r.raise_for_status()
+            sys.exit()
+        return r.text
+
 if __name__ == '__main__':
     print """This package implements client for Ensembl REST API"""
