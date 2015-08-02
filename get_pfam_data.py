@@ -1,5 +1,6 @@
 import requests
 import sys
+import xml.etree.ElementTree as ET
 
 if __name__ == '__main__':
     if len(sys.argv) == 2:
@@ -10,11 +11,14 @@ if __name__ == '__main__':
             r.raise_for_status()
             sys.exit()
         else:
-            print r.content
+            root = ET.fromstring(r.content)
+            for child in root:
+                print "pfamName = " + child.attrib["pfamName"] + " , " + "pfamAcc = " + child.attrib["pfamAcc"]
+
     else:
         print """This script retrieves Pfam data for provided PDB ID
 
                     Usage: python get_pfam_data.py [PDB_ID]
                     For example:
-                    python get_pfam_data.py 4hhb
+                    python get_pfam_data.py 4lac
               """
