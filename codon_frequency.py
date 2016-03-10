@@ -3,21 +3,12 @@ import sys
 from collections import defaultdict
 
 if __name__ == '__main__':
-    if len(sys.argv) == 3:
+    if len(sys.argv) == 2:
         client = ensembl.EnsemblRestClient()
-        species = sys.argv[1]
-        symbol = sys.argv[2]
-        ref = client.get_xrefs_symbol(species = species, symbol = symbol)
-        #add verification if ref came back non-empty
-        for obj in ref:
-            print obj['type'] + ' ' + obj['id']
-            if obj['type'] == "transcript":
-                seq_id = obj['id']
+        seq_id = sys.argv[1]
         ref = client.get_sequence( seq_id )
-        print ref
         sequence = ref['seq']
         sequence = sequence.replace('T','U')
-        print "Sequence: " + sequence
 
         #RNA codon table from http://en.wikipedia.org/wiki/Genetic_code
         codon_table = ((('GCU', 'GCC', 'GCA', 'GCG'),  'Alanine'),
@@ -71,8 +62,8 @@ if __name__ == '__main__':
 
     else:
         print """This is a script for analysing frequency of amino-acid occurrence
-                    Usage: python codon_frequency.py [species] [symbol]
-                        [symbol] is expected to have Ensembl object linked to it.
+                    Usage: python codon_frequency.py [ensembl_id]
+                        [ensembl_id] is expected to have Ensembl object linked to it.
                     For example:
-                    python get_xrefs_symbol.py homo_sapiens BRCA2
+                    python get_xrefs_symbol.py ENSG00000157764
               """
