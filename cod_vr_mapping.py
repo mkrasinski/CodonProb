@@ -61,7 +61,7 @@ def cod_vr_mapping( pdb_chain_id, vr_filename, transcriptId, alignment ):
                     for row in VR:
                         if int(row[0]) == i:
                             #print row
-                            print pdb_chain_id + ' ' + aaCodes[k] + ' ' + k + ' ' + cod_seq[j] + ' ' +  row[0] + ' ' + row[1] + ' ' + row[2] + ' ' + row[3]
+                            print pdb_chain_id + ' ' + aaCodes[k] + ' ' + cod_seq[j] + ' ' +  row[0] + ' ' + row[1] + ' ' + row[2] + ' ' + row[3]
                 j = j + 1
 
         #pdbId = sys.argv[1]
