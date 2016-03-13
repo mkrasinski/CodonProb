@@ -50,12 +50,13 @@ if __name__ == '__main__':
             else:
                 freq[cod] = '-* Missing *-'
                 freq[siblings[cod]] = '-* Missing *-'
-        print "|-------------|-----------------|-----|-----------------|\n"+\
-              "|  Amino-acid |   AA prob       |Codon|   Codon prob    |\n"+\
-              "|-------------|-----------------|-----|-----------------|\n"
+        print "|-------------|-------------------|-----|------------------|-----------|-----------|---------|\n"+\
+              "|  Amino-acid |   AA prob         |Codon|   Codon prob     | All AAs # | This AA # | Codon # |\n"+\
+              "|-------------|-------------------|-----|------------------|-----------|-----------|---------|\n"
         display = '\n'.join(
-                '\n'.join('%s   %-13s  %s   %-16s' % (aa.rjust(13),freq[codgrp],cod.rjust(4),freq[cod])
-                          for i,cod in enumerate(codgrp))
+                '\n'.join('%s   %-17s  %s   %-17s      %-9s   %-9s  %s' %
+                          (aa.rjust(13),freq[codgrp],cod.rjust(4),freq[cod],sum(grp_count.values()),grp_count[siblings[cod]],cod_count[cod])
+                          for i,cod in enumerate(codgrp) if grp_count[siblings[cod]] > 0 )
                 for codgrp,aa in codon_table)
 
         print display
@@ -65,5 +66,5 @@ if __name__ == '__main__':
                     Usage: python codon_frequency.py [ensembl_id]
                         [ensembl_id] is expected to have Ensembl object linked to it.
                     For example:
-                    python get_xrefs_symbol.py ENSG00000157764
+                    python codon_frequency.py ENSG00000157764
               """
