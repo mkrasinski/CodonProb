@@ -65,5 +65,5 @@ if __name__ == '__main__':
                     Usage: python codon_frequency.py [ensembl_id]
                         [ensembl_id] is expected to have Ensembl object linked to it.
                     For example:
-                    python get_xrefs_symbol.py ENSG00000157764
+                    python get_xrefs_symbol.py  ENSG00000157764
               """

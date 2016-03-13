@@ -8,7 +8,7 @@ import xml.etree.ElementTree as ET
 import sys
 
 def cod_vr_mapping( pdb_chain_id, vr_filename, transcriptId, alignment ):
-        # amino acids codes dictionary definition
+        # amino acids codes dictionary definition 
         aaCodes = dict()
         aaCodes['G'] = 'Gly' #GLYCINE
         aaCodes['P'] = 'Pro' #PROLINE
