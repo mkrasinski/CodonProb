@@ -6,13 +6,14 @@ class EnsemblRestClient():
     def __init__(self, server='http://rest.ensembl.org'):
         self.server = server
 
-    def get_sequence(self, id):
+    def get_sequence(self, id, contentType="application/json", type="genomic"):
         """Return archived sequence for specified identifier."""
         self.endpoint = '/sequence/id/'
-        url = self.server + self.endpoint + id + '?'
+        url = self.server + self.endpoint + id + '?content-type=' + contentType + ';type=' + type
         r = requests.get(url, headers={ "Content-Type" : "application/json"})
 
         if not r.ok:
+            sys.stderr.write('Error ' + str(r.status_code) + ' while getting sequence for ' + id + ' -- unable to get sequence from Ensembl !')
             r.raise_for_status()
             sys.exit()
         decoded = r.json()
