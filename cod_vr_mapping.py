@@ -77,16 +77,14 @@ def cod_vr_mapping( pdb_chain_id, vr_filename, transcriptId, alignment ):
 if __name__ == '__main__':
     usage_text = """This is a script for analysing frequency of amino-acid occurrence
 Usage:
-    python cod_vr_mapping.py [-i input_file] [-o output_file] [ensembl_id]
+    python cod_vr_mapping.py [-i input_file] [-o output_file]
 
         -h              print this help screen
-        -i              specify input file with list of Ensembl ids
-        -o              specify output file (default is stdout)
-        ensembl_id      run script for this specified Ensembl id only (while input file is not provided)
+        -i              specify input file with list of PDB ids
+        -o              specify output file (default output is stdout)
 
     For example:
-    python codon_frequency.py -t ENSG00000157764
-    python codon_frequency.py -i in.txt -o out.txt
+    python cod_vr_mapping.py -i in.txt -o out.txt
 """
 
     #if len(sys.argv) == 5:
